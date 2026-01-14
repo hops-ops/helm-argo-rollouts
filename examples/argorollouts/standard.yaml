@@ -1,0 +1,15 @@
+apiVersion: helm.hops.ops.com.ai/v1alpha1
+kind: ArgoRollouts
+metadata:
+  name: argo-rollouts
+  namespace: example-env
+spec:
+  clusterName: example-cluster
+  labels:
+    team: platform
+  values:
+    dashboard:
+      enabled: true
+    controller:
+      metrics:
+        enabled: true

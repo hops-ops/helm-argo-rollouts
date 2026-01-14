@@ -1,0 +1,38 @@
+# code: language=yaml
+#
+# Helm release for Argo Rollouts progressive delivery controller
+#
+
+{{- $ar := $state.argorollouts }}
+
+---
+apiVersion: helm.m.crossplane.io/v1beta1
+kind: Release
+metadata:
+  name: {{ $ar.releaseName }}
+  annotations:
+    {{ setResourceNameAnnotation "helm-release-argorollouts" }}
+  labels: {{ $ar.labels | toJson }}
+spec:
+  managementPolicies: {{ $ar.managementPolicies | toJson }}
+  forProvider:
+    chart:
+      name: argo-rollouts
+      repository: https://argoproj.github.io/argo-helm
+      version: 2.40.5
+    namespace: {{ $ar.namespace }}
+    {{- if $ar.overrideAllValues }}
+    values:
+      {{- toYaml $ar.overrideAllValues | nindent 6 }}
+    {{- else }}
+    values:
+      fullnameOverride: argo-rollouts
+      nameOverride: argo-rollouts
+      {{- if $ar.values }}
+      {{- toYaml $ar.values | nindent 6 }}
+      {{- end }}
+    {{- end }}
+  rollbackLimit: 3
+  providerConfigRef:
+    name: {{ $ar.providerConfigRef.name }}
+    kind: {{ $ar.providerConfigRef.kind }}
