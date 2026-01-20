@@ -1,7 +1,6 @@
 # Default values for helm-argo-rollouts deployment
 
 # Version of the configuration package to install
-version: latest
-
+version: v0.1.0
 # Skip dependency resolution - set to true if functions are managed separately
 skipDependencyResolution: false
