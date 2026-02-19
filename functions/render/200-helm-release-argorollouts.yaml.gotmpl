@@ -24,13 +24,9 @@ spec:
     {{- if $ar.overrideAllValues }}
     values:
       {{- toYaml $ar.overrideAllValues | nindent 6 }}
-    {{- else }}
+    {{- else if $ar.values }}
     values:
-      fullnameOverride: argo-rollouts
-      nameOverride: argo-rollouts
-      {{- if $ar.values }}
       {{- toYaml $ar.values | nindent 6 }}
-      {{- end }}
     {{- end }}
   rollbackLimit: 3
   providerConfigRef:
